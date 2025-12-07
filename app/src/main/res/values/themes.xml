@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Базовая системная тема без ActionBar.
+         Всё оформление делает Compose-тема BDVailTransfersTheme -->
+    <style name="Theme.BDVailTransfers" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <!-- Пока без дополнительных атрибутов -->
+    </style>
+
+</resources>

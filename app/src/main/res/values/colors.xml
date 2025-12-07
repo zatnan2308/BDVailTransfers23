@@ -1,0 +1,17 @@
+<resources>
+    <!-- Брендовые цвета BDVail (пример, потом можно подкрутить под точный брендбук) -->
+    <color name="bdvail_primary">#0B1B3A</color>      <!-- тёмно-синий -->
+    <color name="bdvail_primary_variant">#122753</color>
+    <color name="bdvail_secondary">#E0B53A</color>    <!-- золотистый -->
+    <color name="bdvail_secondary_variant">#C89C24</color>
+
+    <color name="bdvail_background">#0A0F1A</color>   <!-- тёмный фон -->
+    <color name="bdvail_surface">#131C2C</color>
+    <color name="bdvail_on_primary">#FFFFFF</color>
+    <color name="bdvail_on_secondary">#1A1A1A</color>
+    <color name="bdvail_on_background">#FFFFFF</color>
+    <color name="bdvail_on_surface">#E6EDF7</color>
+
+    <color name="bdvail_error">#CF6679</color>
+    <color name="bdvail_on_error">#000000</color>
+</resources>

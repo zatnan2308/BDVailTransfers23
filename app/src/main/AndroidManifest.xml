@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Доступ к сети для работы с API сайта bdvail.com -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- На будущее: если решим использовать геолокацию -->
+    <!--
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    -->
+
+    <!-- На будущее: если понадобится звонок из приложения по номеру компании -->
+    <!--
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BDVailTransfers">
+
+        <!-- Главная Activity приложения BDVail Transfers -->
+        <activity
+            android:name="com.example.bdvailtransfers2.MainActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <!-- Точка входа в приложение -->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+    </application>
+
+</manifest>
