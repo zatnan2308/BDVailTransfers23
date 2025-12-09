@@ -21,13 +21,6 @@ data class BookingUiState(
 
 /**
  * ViewModel для экрана формы бронирования.
- *
- * Логика:
- * 1) Внешний код собирает BookingRequest из полей формы.
- * 2) submitBooking() валидирует request.
- * 3) При успехе вызывает API через BookingRepository.
- * 4) В uiState попадает результат (success / error + bookingId).
- * 5) UI реагирует: навигация на Success / показ Snackbar с ошибкой.
  */
 class BookingViewModel(
     private val bookingRepository: BookingRepository = BookingRepository()
@@ -60,14 +53,12 @@ class BookingViewModel(
         }
 
         viewModelScope.launch {
-            // Стартуем загрузку
             _uiState.value = BookingUiState(isLoading = true)
 
             try {
                 val response = bookingRepository.createBooking(request)
 
                 if (response.success) {
-                    // Успех — можно навигироваться на экран Success
                     _uiState.value = BookingUiState(
                         isLoading = false,
                         success = true,
@@ -75,7 +66,6 @@ class BookingViewModel(
                         createdBookingId = response.bookingId
                     )
                 } else {
-                    // Сервер вернул ошибку
                     _uiState.value = BookingUiState(
                         isLoading = false,
                         success = false,
@@ -84,7 +74,6 @@ class BookingViewModel(
                     )
                 }
             } catch (e: Exception) {
-                // Ошибка сети / парсинга
                 _uiState.value = BookingUiState(
                     isLoading = false,
                     success = false,
@@ -98,17 +87,19 @@ class BookingViewModel(
 
     /**
      * Базовая валидация обязательных полей.
-     * Тут можно будет легко расширять под реальные требования формы.
      */
     private fun validate(request: BookingRequest): String? {
         if (request.pickupLocation.isBlank()) return "Pickup location is required."
         if (request.dropoffLocation.isBlank()) return "Dropoff location is required."
         if (request.date.isBlank()) return "Date is required."
-        if (request.time.isBlank()) return "Time is required."
+        // Время можем не требовать жёстко: пользователь может ввести только дату.
         if (request.passengers <= 0) return "Passengers must be greater than 0."
         if (request.name.isBlank()) return "Name is required."
-        if (request.phone.isBlank()) return "Phone is required."
-        // routeId/routeName опциональны: иногда маршрут может быть кастомным
+        // Телефон или email: хотя бы один должен быть
+        if (request.phone.isBlank() && request.email.isNullOrBlank()) {
+            return "Please provide phone or email."
+        }
+        // routeId/routeName опциональны
         return null
     }
 }

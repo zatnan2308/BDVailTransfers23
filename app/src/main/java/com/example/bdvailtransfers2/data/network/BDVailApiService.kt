@@ -12,25 +12,24 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
- * Описание REST API BDVail для приложения.
- * Здесь мы описываем только те эндпойнты, которые реально используем в приложении.
+ * REST API интерфейс для сайта BDVail.
+ *
+ * Пути должны совпадать с эндпойнтами WordPress-плагина:
+ *  - GET  /wp-json/bdvail/v1/app/routes
+ *  - POST /wp-json/bdvail/v1/app/booking
+ *  - GET  /wp-json/bdvail/v1/app/bookings?phone=...
+ *  - POST /wp-json/bdvail/v1/app/support
  */
 interface BDVailApiService {
 
     /**
-     * Получить список доступных маршрутов.
-     *
-     * Ожидаемый эндпойнт WordPress-плагина:
-     * GET /wp-json/bdvail/v1/app/routes
+     * Список маршрутов для экрана Routes.
      */
     @GET("wp-json/bdvail/v1/app/routes")
     suspend fun getRoutes(): List<Route>
 
     /**
-     * Создать новое бронирование.
-     *
-     * Ожидаемый эндпойнт:
-     * POST /wp-json/bdvail/v1/app/booking
+     * Создание нового бронирования.
      */
     @POST("wp-json/bdvail/v1/app/booking")
     suspend fun createBooking(
@@ -38,10 +37,7 @@ interface BDVailApiService {
     ): BookingResponse
 
     /**
-     * Получить список бронирований по телефону.
-     *
-     * Ожидаемый эндпойнт:
-     * GET /wp-json/bdvail/v1/app/bookings?phone=+123456789
+     * Список уже созданных бронирований по номеру телефона.
      */
     @GET("wp-json/bdvail/v1/app/bookings")
     suspend fun getBookings(
@@ -49,10 +45,7 @@ interface BDVailApiService {
     ): List<Booking>
 
     /**
-     * Отправить запрос в поддержку.
-     *
-     * Ожидаемый эндпойнт:
-     * POST /wp-json/bdvail/v1/app/support
+     * Отправка запроса в поддержку.
      */
     @POST("wp-json/bdvail/v1/app/support")
     suspend fun sendSupport(

@@ -2,18 +2,40 @@ package com.example.bdvailtransfers2.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BDVailPrimary = Color(0xFF0B1B3A)
-val BDVailPrimaryVariant = Color(0xFF122753)
-val BDVailSecondary = Color(0xFFE0B53A)
-val BDVailSecondaryVariant = Color(0xFFC89C24)
+// Основная светлая палитра приложения BDVail
 
-val BDVailBackground = Color(0xFF0A0F1A)
-val BDVailSurface = Color(0xFF131C2C)
+// Главный синий (кнопки, FAB, выделения)
+val BDVailPrimary = Color(0xFF2F6BFF)
+val BDVailPrimaryVariant = Color(0xFF1F4FD5)
 
+// Акцентные голубые тона
+val BDVailSecondary = Color(0xFF87B3FF)
+val BDVailSecondaryVariant = Color(0xFFE3ECFF)
+
+// Фон и поверхности
+val BDVailBackground = Color(0xFFF5F7FB) // почти белый фон
+val BDVailSurface = Color(0xFFFFFFFF)
+
+// Цвет текста
 val BDVailOnPrimary = Color(0xFFFFFFFF)
-val BDVailOnSecondary = Color(0xFF1A1A1A)
-val BDVailOnBackground = Color(0xFFFFFFFF)
-val BDVailOnSurface = Color(0xFFE6EDF7)
+val BDVailOnSecondary = Color(0xFF0B1B3A)
+val BDVailOnBackground = Color(0xFF111827)
+val BDVailOnSurface = Color(0xFF111827)
 
-val BDVailError = Color(0xFFCF6679)
-val BDVailOnError = Color(0xFF000000)
+// Ошибки
+val BDVailError = Color(0xFFEF5350)
+val BDVailOnError = Color(0xFFFFFFFF)
+
+// Обводки / разделители
+val BDVailOutline = Color(0xFFD1D5E8)
+
+// Дополнительные цвета для статусов поездок
+val StatusConfirmed = Color(0xFF2ECC71)
+val StatusPending = Color(0xFFF1C40F)
+val StatusCancelled = Color(0xFFE74C3C)
+
+// Мягкий фон карточек (например, "Call us", "Email us")
+val SoftCardBackground = Color(0xFFF7FAFF)
+
+// Фон для чипов / маленьких бейджей
+val ChipBackground = Color(0xFFE9F0FF)

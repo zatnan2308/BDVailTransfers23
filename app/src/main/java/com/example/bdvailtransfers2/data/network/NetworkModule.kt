@@ -6,20 +6,26 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * Простейший "модуль" сети без DI-фреймворков.
+ * Простейший модуль сети без DI-фреймворков.
  * Даёт готовый экземпляр BDVailApiService.
  */
 object NetworkModule {
 
-    // Базовый URL сайта (с обязательным / в конце)
-    private const val BASE_URL = "https://www.bdvail.com/"
+    /**
+     * Базовый URL сайта (обязательно с / в конце).
+     *
+     * Сейчас тестовый сайт:
+     *   https://bdvail.alexeykachan.com/
+     *
+     * Когда будешь заливать в прод, можно поменять обратно на:
+     *   https://www.bdvail.com/
+     */
+    private const val BASE_URL = "https://bdvail.alexeykachan.com/"
 
-    // Логирование запросов (на проде можно понизить уровень)
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {
-            // BASIC — только старт/строка запроса/код ответа,
-            // BODY — полный запрос/ответ (осторожно с логами)
-            level = HttpLoggingInterceptor.Level.BASIC
+            // В проде можно поставить BASIC или NONE
+            level = HttpLoggingInterceptor.Level.BODY
         }
     }
 

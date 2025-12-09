@@ -72,22 +72,22 @@ dependencies {
     implementation(libs.bundles.androidx.compose)
     implementation(libs.androidx.navigation.compose)
 
+    // ViewModel для Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+    // DataStore для локальных настроек пользователя
+    implementation(libs.androidx.datastore.preferences)
+
     // Сеть: Retrofit + OkHttp + Moshi
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
 
-    // Coroutines
+    // Коррутины
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
-    // DataStore
-    implementation(libs.androidx.datastore.preferences)
-
-    // Тесты
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
@@ -97,10 +97,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Retrofit + Gson
+    // Ниже можешь оставить/почистить дубли Retrofit/OkHttp по желанию
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // OkHttp logging
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }
+

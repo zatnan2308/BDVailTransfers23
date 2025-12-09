@@ -6,12 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -54,6 +59,7 @@ object NavRoutes {
     const val MY_BOOKINGS = "my_bookings"
     const val SUPPORT = "support"
     const val SETTINGS = "settings"
+    const val PROFILE = "profile"
 }
 
 /** Элемент нижней навигации */
@@ -69,74 +75,108 @@ fun BDVailTransfersApp() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination: NavDestination? = navBackStackEntry?.destination
+    val currentRoute: String? = currentDestination?.route
 
     val bottomItems = listOf(
         BottomNavItem(
             route = NavRoutes.HOME,
-            icon = Icons.Default.Home,
+            icon = Icons.Filled.Home,
             label = "Home"
         ),
         BottomNavItem(
-            route = NavRoutes.BOOKING_FORM,
-            icon = Icons.Default.Add,
-            label = "Book"
+            route = NavRoutes.MY_BOOKINGS,
+            icon = Icons.Filled.List,
+            label = "Trips"
         ),
         BottomNavItem(
-            route = NavRoutes.MY_BOOKINGS,
-            icon = Icons.Default.List,
-            label = "My trips"
+            route = NavRoutes.PROFILE,
+            icon = Icons.Filled.Person,
+            label = "Profile"
         ),
         BottomNavItem(
             route = NavRoutes.SETTINGS,
-            icon = Icons.Default.Settings,
-            label = "Settings"
+            icon = Icons.Filled.Menu,
+            label = "Menu"
         )
     )
+
+    val bottomDestinations = bottomItems.map { it.route }.toSet()
+    val isBottomDestination = currentRoute == null || bottomDestinations.contains(currentRoute)
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                navigationIcon = {
+                    if (!isBottomDestination && currentRoute != null) {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                    }
+                },
                 title = {
-                    val route = currentDestination?.route ?: NavRoutes.HOME
                     val title = when {
-                        route.startsWith(NavRoutes.BOOKING_FORM) -> "Book transfer"
-                        route == NavRoutes.ROUTES -> "Routes"
-                        route == NavRoutes.MY_BOOKINGS -> "My trips"
-                        route == NavRoutes.SUPPORT -> "Support"
-                        route == NavRoutes.SETTINGS -> "Settings"
-                        else -> "BDVail Transfers"
+                        currentRoute == null -> "BDVail"
+                        currentRoute.startsWith(NavRoutes.BOOKING_FORM) -> "New Booking"
+                        currentRoute == NavRoutes.BOOKING_SUCCESS -> "Booking confirmed"
+                        currentRoute == NavRoutes.ROUTES -> "Routes"
+                        currentRoute == NavRoutes.MY_BOOKINGS -> "My Trips"
+                        currentRoute == NavRoutes.PROFILE -> "Profile"
+                        currentRoute == NavRoutes.SUPPORT -> "Support"
+                        currentRoute == NavRoutes.SETTINGS -> "Menu"
+                        currentRoute == NavRoutes.HOME -> "Home"
+                        else -> "BDVail"
                     }
                     Text(text = title)
                 }
             )
         },
-        bottomBar = {
-            NavigationBar {
-                bottomItems.forEach { item ->
-                    val selected =
-                        currentDestination?.hierarchy?.any { it.route == item.route } == true ||
-                                (item.route == NavRoutes.BOOKING_FORM &&
-                                        (currentDestination?.route?.startsWith(NavRoutes.BOOKING_FORM) == true))
-
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = item.label
-                            )
-                        },
-                        label = { Text(text = item.label) }
+        floatingActionButton = {
+            if (isBottomDestination) {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(NavRoutes.BOOKING_FORM) {
+                            launchSingleTop = true
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "New booking"
                     )
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        bottomBar = {
+            if (isBottomDestination) {
+                NavigationBar {
+                    bottomItems.forEach { item ->
+                        val selected =
+                            currentDestination?.hierarchy?.any { it.route == item.route } == true
+
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = item.icon,
+                                    contentDescription = item.label
+                                )
+                            },
+                            label = { Text(text = item.label) }
+                        )
+                    }
                 }
             }
         }
@@ -170,6 +210,10 @@ fun BDVailTransfersApp() {
             }
             composable(NavRoutes.SETTINGS) {
                 SettingsScreen()
+            }
+            composable(NavRoutes.PROFILE) {
+                // Временный заглушечный экран профиля — позже вынесем в отдельный файл.
+                Text(text = "Profile screen")
             }
         }
     }
